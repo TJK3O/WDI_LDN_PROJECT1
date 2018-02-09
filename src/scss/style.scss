@@ -1,1 +1,35 @@
+@import "animate.scss";
+@import "normalize.scss";
 
+body {
+  background-color: green;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+
+  .container {
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    background-color: red;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .player, .box {
+      box-sizing: border-box;
+      border: 5px solid black;
+    }
+    .player {
+      background-color: green;
+    }
+  }
+  div {
+    margin: 0;
+    width: 200px;
+    height: 200px;
+    background-color: white;
+    font-size: 50px;
+    line-height: 3em;
+  }
+}
