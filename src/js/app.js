@@ -1,23 +1,30 @@
 $(() => {
   console.log('JS Loaded');
+  const $container = $('.container');
   const $boxes = $('.box');
-  const width = 3;
-  const height = 3;
+  const gridWidth = 3;
+  const gridHeight = 3;
+  const boxWidth = (100 / gridWidth);
+  const boxHeight = (100 / gridHeight);
   let currentIndex = 0;
   const $finish = $('.finish');
   let aboveCurrentBox = -3;
-  let currentIndexMinusThree;
+  let currentIndexMinusWidth;
   let belowCurrentBox = 3;
-  let currentIndexPlusThree;
+  let currentIndexPlusWidth;
   let leftOfCurrentBox = -1;
   let currentIndexPlusOne;
   let rightOfCurrentBox = +1;
   let currentIndexMinusOne;
-
+  const $status = $('.status');
+  const $play = $('.play');
   const $countdown = $('#time-remaining');
   let timerTime = 10;
   let timerId;
   let timerRunning;
+  let gameOver;
+
+
 
   function startStopTimer() {
     if (!timerRunning) {
@@ -26,107 +33,117 @@ $(() => {
           if ($finish.hasClass('player')) {
             clearInterval(timerId);
             timerRunning = false;
-            console.log('You win!');
+            $status.text('You win!');
+            gameOver = true;
+            console.log(gameOver);
           }
           timerTime --;
           $countdown.text(timerTime);
           timerRunning = true;
         } else if (timerTime === 0) {
-          console.log('You lose');
+          $status.text('You lose');
           clearInterval(timerId);
           timerRunning = false;
+          gameOver = true;
+          console.log(gameOver);
         }
       }, 1000);
     } else {
       clearInterval(timerId);
       timerRunning = false;
+      gameOver = true;
+      console.log(gameOver);
     }
   }
 
-
-
-
-
-  $(document).on('click', () => {
-    startStopTimer();
-  });
-
-
-
-
-
-
-
-  // check if key is pressed
-  $(document).on('keyup', (e) => {
-    currentIndex = $('.player').index();
-    currentIndexMinusThree = parseFloat(currentIndex - 3);
-    currentIndexPlusThree = parseFloat(currentIndex + 3);
-    currentIndexPlusOne = parseFloat(currentIndex + 1);
-    currentIndexMinusOne = parseFloat(currentIndex - 1);
-    belowCurrentBox = $boxes.eq(currentIndexPlusThree);
-    aboveCurrentBox = $boxes.eq(currentIndexMinusThree);
-    leftOfCurrentBox = $boxes.eq(currentIndexMinusOne);
-    rightOfCurrentBox = $boxes.eq(currentIndexPlusOne);
-    // console.log(aboveCurrentBox);
-    $('.user-input').html( event.type + ': ' + event.which );
-    // check which key has been pressed
-    if(e.which === 87) {
-      console.log('up');
-
-      if (aboveCurrentBox.hasClass('cant-stand')) {
-        // aboveCurrentBox.removeClass('cant-stand');
-        console.log('can\'t stand above');
-      }
-      // if (index - width < 0) #player can’t go up
-      if (currentIndex - width < 0 || aboveCurrentBox.hasClass('cant-stand')) {
-        currentIndex += width;
-      }
-      // remove player class from cell
-      $boxes.removeClass('player');
-      // add 1 to currentIndex
-      currentIndex -= width;
-      // find cell $boxes.eq(currentIndex) and add player class to cell
-      $boxes.eq(currentIndex).addClass('player');
-    } else if (e.which === 65) {
-      // if (index % width === 0) #player can’t move left
-      if (leftOfCurrentBox.hasClass('cant-stand')) {
-        // aboveCurrentBox.removeClass('cant-stand');
-        console.log('can\'t stand left');
-      }
-      if (currentIndex % width === 0 || leftOfCurrentBox.hasClass('cant-stand')) {
-        currentIndex +=1;
-      }
-      console.log('left');
-      $boxes.removeClass('player');
-      currentIndex -= 1;
-      $boxes.eq(currentIndex).addClass('player');
-    } else if (e.which === 83) {
-      // if (index + width > (width x height) - 1 #player can’t go down
-      if (currentIndex + width >= (width * height) || belowCurrentBox.hasClass('cant-stand')) {
-        currentIndex -= width;
-      }
-      if (belowCurrentBox.hasClass('cant-stand')) {
-        // aboveCurrentBox.removeClass('cant-stand');
-        console.log('can\'t stand below');
-      }
-      console.log('down');
-      $boxes.removeClass('player');
-      currentIndex += width;
-      $boxes.eq(currentIndex).addClass('player');
-    } else if (e.which === 68) {
-      console.log('right');
-      // if (index % width === width -1) #player can’t move right
-      if (currentIndex % width === width - 1 || rightOfCurrentBox.hasClass('cant-stand')) {
-        currentIndex -=1;
-      }
-      if (rightOfCurrentBox.hasClass('cant-stand')) {
-        // aboveCurrentBox.removeClass('cant-stand');
-        console.log('can\'t stand right');
-      }
-      $boxes.removeClass('player');
-      currentIndex += 1;
-      $boxes.eq(currentIndex).addClass('player');
+  function playerPressesW() {
+    if (aboveCurrentBox.hasClass('cant-stand')) {
+      console.log('can\'t stand above');
     }
+    // if (index - width < 0) #player can’t go up
+    if (currentIndex - gridWidth < 0 || aboveCurrentBox.hasClass('cant-stand')) {
+      currentIndex += gridWidth;
+    }
+    // remove player class from cell
+    $boxes.removeClass('player');
+    // add 1 to currentIndex
+    currentIndex -= gridWidth;
+    // find cell $boxes.eq(currentIndex) and add player class to cell
+    $boxes.eq(currentIndex).addClass('player');
+  }
+
+  function playerPressesA() {
+    // if (index % width === 0) #player can’t move left
+    if (leftOfCurrentBox.hasClass('cant-stand')) {
+      console.log('can\'t stand left');
+    }
+    if (currentIndex % gridWidth === 0 || leftOfCurrentBox.hasClass('cant-stand')) {
+      currentIndex +=1;
+    }
+    console.log('left');
+    $boxes.removeClass('player');
+    currentIndex -= 1;
+    $boxes.eq(currentIndex).addClass('player');
+  }
+
+  function playerPressesS() {
+    // if (index + width > (width x height) - 1 #player can’t go down
+    if (currentIndex + gridWidth >= (gridWidth * gridHeight) || belowCurrentBox.hasClass('cant-stand')) {
+      currentIndex -= gridWidth;
+    }
+    if (belowCurrentBox.hasClass('cant-stand')) {
+      console.log('can\'t stand below');
+    }
+    console.log('down');
+    $boxes.removeClass('player');
+    currentIndex += gridWidth;
+    $boxes.eq(currentIndex).addClass('player');
+  }
+
+  function playerPressesD() {
+    // if (index % width === width -1) #player can’t move right
+    if (currentIndex % gridWidth === gridWidth - 1 || rightOfCurrentBox.hasClass('cant-stand')) {
+      currentIndex -=1;
+    }
+    if (rightOfCurrentBox.hasClass('cant-stand')) {
+      console.log('can\'t stand right');
+    }
+    $boxes.removeClass('player');
+    currentIndex += 1;
+    $boxes.eq(currentIndex).addClass('player');
+  }
+
+  $play.on('click', () => {
+    $play.hide();
+    $status.show();
+    startStopTimer();
+    $(document).on('keydown', (e) => {
+      // check if key is pressed
+      if (!gameOver) {
+        currentIndex = $('.player').index();
+        currentIndexMinusWidth = parseFloat(currentIndex - gridWidth);
+        currentIndexPlusWidth = parseFloat(currentIndex + gridWidth);
+        currentIndexPlusOne = parseFloat(currentIndex + 1);
+        currentIndexMinusOne = parseFloat(currentIndex - 1);
+        belowCurrentBox = $boxes.eq(currentIndexPlusWidth);
+        aboveCurrentBox = $boxes.eq(currentIndexMinusWidth);
+        leftOfCurrentBox = $boxes.eq(currentIndexMinusOne);
+        rightOfCurrentBox = $boxes.eq(currentIndexPlusOne);
+        // console.log(aboveCurrentBox);
+        $('.user-input').html( event.type + ': ' + event.which );
+        // check which key has been pressed
+        if(e.which === 87) {
+          console.log('up');
+          playerPressesW();
+        } else if (e.which === 65) {
+          playerPressesA();
+        } else if (e.which === 83) {
+          playerPressesS();
+        } else if (e.which === 68) {
+          console.log('right');
+          playerPressesD();
+        }
+      }
+    });
   });
 });
