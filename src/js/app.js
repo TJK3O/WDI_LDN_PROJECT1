@@ -1,6 +1,8 @@
 $(() => {
   console.log('JS Loaded');
   const $boxes = $('.box');
+  const width = 3;
+  const height = 3;
   let currentIndex = 0;
 
   let aboveCurrentBox = -3;
@@ -12,9 +14,40 @@ $(() => {
   let rightOfCurrentBox = +1;
   let currentIndexMinusOne;
 
+  const $countdown = $('#time-remaining');
+  let timerTime = 10;
+  let timerId;
+  let timerRunning;
+
+  function startStopTimer() {
+    if (!timerRunning) {
+      timerId = setInterval(() => {
+        if (timerTime >= 1){
+          timerTime --;
+          $countdown.text(timerTime);
+          timerRunning = true;
+        }
+      }, 1000);
+    } else {
+      clearInterval(timerId);
+      timerRunning = false;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   // check if key is pressed
   $(document).on('keyup', (e) => {
+    startStopTimer();
     currentIndex = $('.player').index();
     currentIndexMinusThree = parseFloat(currentIndex - 3);
     currentIndexPlusThree = parseFloat(currentIndex + 3);
@@ -35,13 +68,13 @@ $(() => {
         console.log('can\'t stand above');
       }
       // if (index - width < 0) #player can’t go up
-      if (currentIndex - 3 < 0 || aboveCurrentBox.hasClass('cant-stand')) {
-        currentIndex += 3;
+      if (currentIndex - width < 0 || aboveCurrentBox.hasClass('cant-stand')) {
+        currentIndex += width;
       }
       // remove player class from cell
       $boxes.removeClass('player');
       // add 1 to currentIndex
-      currentIndex -= 3;
+      currentIndex -= width;
       // find cell $boxes.eq(currentIndex) and add player class to cell
       $boxes.eq(currentIndex).addClass('player');
     } else if (e.which === 65) {
@@ -50,7 +83,7 @@ $(() => {
         // aboveCurrentBox.removeClass('cant-stand');
         console.log('can\'t stand left');
       }
-      if (currentIndex % 3 === 0 || leftOfCurrentBox.hasClass('cant-stand')) {
+      if (currentIndex % width === 0 || leftOfCurrentBox.hasClass('cant-stand')) {
         currentIndex +=1;
       }
       console.log('left');
@@ -59,8 +92,8 @@ $(() => {
       $boxes.eq(currentIndex).addClass('player');
     } else if (e.which === 83) {
       // if (index + width > (width x height) - 1 #player can’t go down
-      if (currentIndex + 3 >= (3 * 3) || belowCurrentBox.hasClass('cant-stand')) {
-        currentIndex -= 3;
+      if (currentIndex + width >= (width * height) || belowCurrentBox.hasClass('cant-stand')) {
+        currentIndex -= width;
       }
       if (belowCurrentBox.hasClass('cant-stand')) {
         // aboveCurrentBox.removeClass('cant-stand');
@@ -68,12 +101,12 @@ $(() => {
       }
       console.log('down');
       $boxes.removeClass('player');
-      currentIndex += 3;
+      currentIndex += width;
       $boxes.eq(currentIndex).addClass('player');
     } else if (e.which === 68) {
       console.log('right');
       // if (index % width === width -1) #player can’t move right
-      if (currentIndex % 3 === 3 - 1 || rightOfCurrentBox.hasClass('cant-stand')) {
+      if (currentIndex % width === width - 1 || rightOfCurrentBox.hasClass('cant-stand')) {
         currentIndex -=1;
       }
       if (rightOfCurrentBox.hasClass('cant-stand')) {
