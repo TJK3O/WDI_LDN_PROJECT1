@@ -4,7 +4,7 @@ $(() => {
   const width = 3;
   const height = 3;
   let currentIndex = 0;
-
+  const $finish = $('.finish');
   let aboveCurrentBox = -3;
   let currentIndexMinusThree;
   let belowCurrentBox = 3;
@@ -23,9 +23,18 @@ $(() => {
     if (!timerRunning) {
       timerId = setInterval(() => {
         if (timerTime >= 1){
+          if ($finish.hasClass('player')) {
+            clearInterval(timerId);
+            timerRunning = false;
+            console.log('You win!');
+          }
           timerTime --;
           $countdown.text(timerTime);
           timerRunning = true;
+        } else if (timerTime === 0) {
+          console.log('You lose');
+          clearInterval(timerId);
+          timerRunning = false;
         }
       }, 1000);
     } else {
@@ -38,6 +47,9 @@ $(() => {
 
 
 
+  $(document).on('click', () => {
+    startStopTimer();
+  });
 
 
 
@@ -47,7 +59,6 @@ $(() => {
 
   // check if key is pressed
   $(document).on('keyup', (e) => {
-    startStopTimer();
     currentIndex = $('.player').index();
     currentIndexMinusThree = parseFloat(currentIndex - 3);
     currentIndexPlusThree = parseFloat(currentIndex + 3);
