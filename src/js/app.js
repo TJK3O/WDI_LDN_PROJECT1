@@ -1,11 +1,11 @@
 $(() => {
   console.log('JS Loaded');
   const $container = $('.container');
-  const $boxes = $('.box');
-  const gridWidth = 3;
-  const gridHeight = 3;
-  const boxWidth = (100 / gridWidth);
-  const boxHeight = (100 / gridHeight);
+  let $boxes = $('.box');
+  let gridWidth = 3;
+  let gridHeight = 3;
+  let boxWidth = (100 / gridWidth);
+  let boxHeight = (100 / gridHeight);
   let currentIndex = 0;
   const $finish = $('.finish');
   let aboveCurrentBox = -3;
@@ -24,6 +24,19 @@ $(() => {
   let timerRunning;
   let gameOver;
 
+  function generateLevelOne() {
+    gridWidth = 3;
+    gridHeight = 3;
+    for (var i = 0; i < 9; i++) {
+      $container.append('<div></div>');
+      $('.container > div').addClass('box');
+      $('.container div:nth-child(1)').addClass('player');
+      $('.container div:nth-child(9)').addClass('finish');
+      $('.container div:nth-child(3)').addClass('cant-stand');
+      $('.container div:nth-child(5)').addClass('cant-stand');
+    }
+    $boxes = $('.box');
+  }
 
 
   function startStopTimer() {
@@ -117,6 +130,7 @@ $(() => {
     $play.hide();
     $status.show();
     startStopTimer();
+    generateLevelOne();
     $(document).on('keydown', (e) => {
       // check if key is pressed
       if (!gameOver) {
