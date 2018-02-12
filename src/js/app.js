@@ -19,15 +19,18 @@ $(() => {
   const $status = $('.status');
   const $play = $('.play');
   const $countdown = $('#time-remaining');
-  let timerTime = 10;
+  let timerTime = 30;
   let timerId;
   let timerRunning;
   let gameOver;
-  // const levels = [{
-  //   cantStand: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-  // }];
+  let currentLevel = 0;
+  const levels = [{
+    levelOneCantStand: [1, 3, 4, 5, 6, 7, 9, 11, 21, 22 ,23, 25, 27, 28, 31, 35, 37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 68, 69, 71, 73, 75, 77, 79, 83, 84, 85, 86, 87, 89, 90, 91],
+    levelTwoCantStand: [1, 3, 4, 5, 6, 7, 9,  37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 91]
+  }];
 
-  function generateLevelOne() {
+  function generateLevel() {
+    $container.empty();
     gridWidth = 10;
     gridHeight = 10;
     boxWidth = ($container.width() / gridWidth - 2);
@@ -43,10 +46,15 @@ $(() => {
     $boxes.width(boxWidth);
     $boxes.height(boxHeight);
     $('img').height(boxWidth);
-    const levelOneCantStand = [1, 3, 4, 5, 6, 7, 9, 11, 21, 22 ,23, 25, 27, 28, 31, 35, 37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 68, 69, 71, 73, 75, 77, 79, 83, 84, 85, 86, 87, 89, 90, 91];
-    $boxes.filter((i) => {
-      return levelOneCantStand.includes(i);
-    }).addClass('cant-stand');
+    if (currentLevel === 0) {
+      $boxes.filter((i) => {
+        return levels[0].levelOneCantStand.includes(i);
+      }).addClass('cant-stand');
+    } else if (currentLevel === 1) {
+      $boxes.filter((i) => {
+        return levels[0].levelTwoCantStand.includes(i);
+      }).addClass('cant-stand');
+    }
   }
 
 
@@ -59,7 +67,7 @@ $(() => {
             timerRunning = false;
             $status.text('You win!');
             gameOver = true;
-            console.log(gameOver);
+            setTimeout(nextLevel, 1000);
           }
           timerTime --;
           $countdown.text(timerTime);
@@ -76,7 +84,6 @@ $(() => {
       clearInterval(timerId);
       timerRunning = false;
       gameOver = true;
-      console.log(gameOver);
     }
   }
 
@@ -138,38 +145,65 @@ $(() => {
     $boxes.eq(currentIndex).addClass('player').css({'transform': 'rotate(270deg)'});
   }
 
-  $play.on('click', () => {
-    $play.hide();
-    generateLevelOne();
-    $status.show();
-    startStopTimer();
-    $(document).on('keydown', (e) => {
-      // check if key is pressed
-      if (!gameOver) {
-        currentIndex = $('.player').index();
-        currentIndexMinusWidth = parseFloat(currentIndex - gridWidth);
-        currentIndexPlusWidth = parseFloat(currentIndex + gridWidth);
-        currentIndexPlusOne = parseFloat(currentIndex + 1);
-        currentIndexMinusOne = parseFloat(currentIndex - 1);
-        belowCurrentBox = $boxes.eq(currentIndexPlusWidth);
-        aboveCurrentBox = $boxes.eq(currentIndexMinusWidth);
-        leftOfCurrentBox = $boxes.eq(currentIndexMinusOne);
-        rightOfCurrentBox = $boxes.eq(currentIndexPlusOne);
-        // console.log(aboveCurrentBox);
-        $('.user-input').html( event.type + ': ' + event.which );
-        // check which key has been pressed
-        if(e.which === 87) {
-          console.log('up');
-          playerPressesW();
-        } else if (e.which === 65) {
-          playerPressesA();
-        } else if (e.which === 83) {
-          playerPressesS();
-        } else if (e.which === 68) {
-          console.log('right');
-          playerPressesD();
-        }
+  function arrowKeyFunction(e){
+    // check if key is pressed
+    if (!gameOver) {
+      currentIndex = $('.player').index();
+      currentIndexMinusWidth = parseFloat(currentIndex - gridWidth);
+      currentIndexPlusWidth = parseFloat(currentIndex + gridWidth);
+      currentIndexPlusOne = parseFloat(currentIndex + 1);
+      currentIndexMinusOne = parseFloat(currentIndex - 1);
+      belowCurrentBox = $boxes.eq(currentIndexPlusWidth);
+      aboveCurrentBox = $boxes.eq(currentIndexMinusWidth);
+      leftOfCurrentBox = $boxes.eq(currentIndexMinusOne);
+      rightOfCurrentBox = $boxes.eq(currentIndexPlusOne);
+      // console.log(aboveCurrentBox);
+      $('.user-input').html( event.type + ': ' + event.which );
+      // check which key has been pressed
+      if(e.which === 87) {
+        console.log('up');
+        playerPressesW();
+      } else if (e.which === 65) {
+        playerPressesA();
+      } else if (e.which === 83) {
+        playerPressesS();
+      } else if (e.which === 68) {
+        console.log('right');
+        playerPressesD();
       }
+    } else {
+      $(document).off(e);
+      nextLevel();
+    }
+  }
+
+  function arrowKeys(){
+    document.addEventListener('keydown', arrowKeyFunction);
+  }
+
+  function play() {
+    $play.on('click', () => {
+      $play.hide();
+      generateLevel();
+      $status.show();
+      startStopTimer();
+      arrowKeys();
     });
-  });
+  }
+
+  function nextLevel() {
+    timerTime = 30;
+    timerRunning = false;
+    gameOver = false;
+    $play.text('Play next level');
+    currentLevel += 1;
+    timerTime = 30;
+    $container.empty();
+    $status.text('');
+    $countdown.text(timerTime);
+    $finish.removeClass('player');
+    $play.show();
+  }
+
+  play();
 });
