@@ -18,8 +18,7 @@ body {
     justify-content: center;
 
     .player, .box {
-      box-sizing: border-box;
-      border: 5px solid black;
+      border: 1px solid black;
     }
     .player {
       background-color: green;
@@ -42,8 +41,6 @@ body {
   }
   div {
     margin: 0;
-    width: 200px;
-    height: 200px;
     background-color: white;
     font-size: 25px;
     line-height: 7em;

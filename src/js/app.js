@@ -2,12 +2,13 @@ $(() => {
   console.log('JS Loaded');
   const $container = $('.container');
   let $boxes = $('.box');
-  let gridWidth = 3;
-  let gridHeight = 3;
-  let boxWidth = (100 / gridWidth);
-  let boxHeight = (100 / gridHeight);
+  let gridWidth;
+  let gridHeight;
+  let boxWidth;
+  let boxHeight;
   let currentIndex = 0;
-  const $finish = $('.finish');
+  let $finish;
+  //-gridWidth
   let aboveCurrentBox = -3;
   let currentIndexMinusWidth;
   let belowCurrentBox = 3;
@@ -25,17 +26,25 @@ $(() => {
   let gameOver;
 
   function generateLevelOne() {
-    gridWidth = 3;
-    gridHeight = 3;
-    for (var i = 0; i < 9; i++) {
+    console.log(gridWidth);
+    console.log(gridHeight);
+    gridWidth = 10;
+    gridHeight = 10;
+    boxWidth = ($container.width() / gridWidth - 2);
+    boxHeight = ($container.width() / gridHeight - 2);
+    console.log(boxWidth);
+    for (var i = 0; i < (gridWidth * gridHeight); i++) {
       $container.append('<div></div>');
       $('.container > div').addClass('box');
-      $('.container div:nth-child(1)').addClass('player');
-      $('.container div:nth-child(9)').addClass('finish');
+      $('.container div:first-child').addClass('player');
       $('.container div:nth-child(3)').addClass('cant-stand');
       $('.container div:nth-child(5)').addClass('cant-stand');
     }
     $boxes = $('.box');
+    $('.container div:last-child').addClass('finish');
+    $finish = $('.finish');
+    $boxes.width(boxWidth);
+    $boxes.height(boxHeight);
   }
 
 
@@ -128,9 +137,9 @@ $(() => {
 
   $play.on('click', () => {
     $play.hide();
+    generateLevelOne();
     $status.show();
     startStopTimer();
-    generateLevelOne();
     $(document).on('keydown', (e) => {
       // check if key is pressed
       if (!gameOver) {
