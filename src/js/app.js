@@ -28,23 +28,22 @@ $(() => {
   // }];
 
   function generateLevelOne() {
-    gridWidth = 15;
-    gridHeight = 15;
+    gridWidth = 10;
+    gridHeight = 10;
     boxWidth = ($container.width() / gridWidth - 2);
     boxHeight = ($container.width() / gridHeight - 2);
     for (var i = 0; i < (gridWidth * gridHeight); i++) {
       $container.append('<div></div>');
       $('.container > div').addClass('box');
       $('.container div:first-child').addClass('player');
-      $('.container div:nth-child(3)').addClass('cant-stand');
-      $('.container div:nth-child(5)').addClass('cant-stand');
     }
     $boxes = $('.box');
     $('.container div:last-child').addClass('finish');
     $finish = $('.finish');
     $boxes.width(boxWidth);
     $boxes.height(boxHeight);
-    const levelOneCantStand = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    $('img').height(boxWidth);
+    const levelOneCantStand = [1, 3, 4, 5, 6, 7, 9, 11, 21, 22 ,23, 25, 27, 28, 31, 35, 37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 68, 69, 71, 73, 75, 77, 79, 83, 84, 85, 86, 87, 89, 90, 91];
     $boxes.filter((i) => {
       return levelOneCantStand.includes(i);
     }).addClass('cant-stand');
@@ -94,7 +93,8 @@ $(() => {
     // add 1 to currentIndex
     currentIndex -= gridWidth;
     // find cell $boxes.eq(currentIndex) and add player class to cell
-    $boxes.eq(currentIndex).addClass('player');
+    // rotate player background image
+    $boxes.eq(currentIndex).addClass('player').css({'transform': 'rotate(180deg)'});
   }
 
   function playerPressesA() {
@@ -108,7 +108,7 @@ $(() => {
     console.log('left');
     $boxes.removeClass('player');
     currentIndex -= 1;
-    $boxes.eq(currentIndex).addClass('player');
+    $boxes.eq(currentIndex).addClass('player').css({'transform': 'rotate(90deg)'});
   }
 
   function playerPressesS() {
@@ -122,7 +122,7 @@ $(() => {
     console.log('down');
     $boxes.removeClass('player');
     currentIndex += gridWidth;
-    $boxes.eq(currentIndex).addClass('player');
+    $boxes.eq(currentIndex).addClass('player').css({'transform': 'rotate(0deg)'});
   }
 
   function playerPressesD() {
@@ -135,7 +135,7 @@ $(() => {
     }
     $boxes.removeClass('player');
     currentIndex += 1;
-    $boxes.eq(currentIndex).addClass('player');
+    $boxes.eq(currentIndex).addClass('player').css({'transform': 'rotate(270deg)'});
   }
 
   $play.on('click', () => {

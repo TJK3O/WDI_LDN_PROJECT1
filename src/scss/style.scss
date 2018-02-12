@@ -21,7 +21,8 @@ body {
       border: 1px solid black;
     }
     .player {
-      background-color: green;
+      background-image: url(/images/car-down.png);
+      background-size: cover;
     }
     .cant-stand {
       background-color: brown;
