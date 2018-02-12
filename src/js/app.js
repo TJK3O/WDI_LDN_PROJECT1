@@ -19,6 +19,7 @@ $(() => {
   const $status = $('.status');
   const $play = $('.play');
   const $countdown = $('#time-remaining');
+  const $tutorial = $('.tutorial');
   let timerTime = 30;
   let timerId;
   let timerRunning;
@@ -26,8 +27,10 @@ $(() => {
   let currentLevel = 0;
   const levels = [{
     levelOneCantStand: [1, 3, 4, 5, 6, 7, 9, 11, 21, 22 ,23, 25, 27, 28, 31, 35, 37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 68, 69, 71, 73, 75, 77, 79, 83, 84, 85, 86, 87, 89, 90, 91],
-    levelTwoCantStand: [1, 3, 4, 5, 6, 7, 9,  37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 91]
+    levelTwoCantStand: [1, 4, 5, 6, 7, 11, 17, 21, 23, 24, 25, 27, 31, 35, 38, 41, 43, 45, 48, 53, 55, 57, 58, 60, 61, 62, 63, 65, 71, 73, 75, 77, 81, 83, 87, 95, 97]
   }];
+  let score = 0;
+  const $displayScore = $('.display-score');
 
   function generateLevel() {
     $container.empty();
@@ -47,6 +50,7 @@ $(() => {
     $boxes.height(boxHeight);
     $('img').height(boxWidth);
     if (currentLevel === 0) {
+      $('.container div:nth-child(9)').addClass('interact');
       $boxes.filter((i) => {
         return levels[0].levelOneCantStand.includes(i);
       }).addClass('cant-stand');
@@ -57,7 +61,6 @@ $(() => {
     }
   }
 
-
   function startStopTimer() {
     if (!timerRunning) {
       timerId = setInterval(() => {
@@ -65,8 +68,11 @@ $(() => {
           if ($finish.hasClass('player')) {
             clearInterval(timerId);
             timerRunning = false;
+            score += 1;
+            $displayScore.text(`Your score is ${score}`);
             $status.text('You win!');
             gameOver = true;
+            console.log(score);
             setTimeout(nextLevel, 1000);
           }
           timerTime --;
@@ -170,6 +176,11 @@ $(() => {
       } else if (e.which === 68) {
         console.log('right');
         playerPressesD();
+      } else if (e.which === 191 && $('.interact').hasClass('player')) {
+        $('.interact').css({'background-color': 'red'});
+        score += 1;
+        $displayScore.text(`Your score is ${score}`);
+        console.log(score);
       }
     } else {
       $(document).off(e);
@@ -183,6 +194,7 @@ $(() => {
 
   function play() {
     $play.on('click', () => {
+      $tutorial.hide();
       $play.hide();
       generateLevel();
       $status.show();

@@ -8,11 +8,20 @@ body {
   vertical-align: middle;
   align-items: center;
 
+  .tutorial {
+    color: white;
+    position: absolute;
+    width: 40vw;
+    padding: 0 30vw;
+    margin: 5vh auto;
+  }
+
   .container {
     width: 600px;
     height: 600px;
     margin: 0 auto;
-    background-color: red;
+    background-color: grey;
+    border: 5px solid black;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -26,6 +35,9 @@ body {
     }
     .cant-stand {
       background-color: brown;
+    }
+    .interact {
+      background-color: grey;
     }
   }
   .status {
