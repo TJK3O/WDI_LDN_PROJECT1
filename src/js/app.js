@@ -8,7 +8,6 @@ $(() => {
   let boxHeight;
   let currentIndex = 0;
   let $finish;
-  //-gridWidth
   let aboveCurrentBox = -3;
   let currentIndexMinusWidth;
   let belowCurrentBox = 3;
@@ -24,15 +23,15 @@ $(() => {
   let timerId;
   let timerRunning;
   let gameOver;
+  // const levels = [{
+  //   cantStand: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  // }];
 
   function generateLevelOne() {
-    console.log(gridWidth);
-    console.log(gridHeight);
-    gridWidth = 10;
-    gridHeight = 10;
+    gridWidth = 15;
+    gridHeight = 15;
     boxWidth = ($container.width() / gridWidth - 2);
     boxHeight = ($container.width() / gridHeight - 2);
-    console.log(boxWidth);
     for (var i = 0; i < (gridWidth * gridHeight); i++) {
       $container.append('<div></div>');
       $('.container > div').addClass('box');
@@ -45,6 +44,10 @@ $(() => {
     $finish = $('.finish');
     $boxes.width(boxWidth);
     $boxes.height(boxHeight);
+    const levelOneCantStand = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    $boxes.filter((i) => {
+      return levelOneCantStand.includes(i);
+    }).addClass('cant-stand');
   }
 
 
