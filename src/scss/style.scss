@@ -3,86 +3,142 @@
 
 body {
   font-family:'Press Start 2P', cursive;
-  background-color: grey;
   text-align: center;
   vertical-align: middle;
   align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  background: gray url(/images/backgroundPattern.png) repeat 0 0;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  -webkit-animation: slide 20s linear infinite;
 
-  .tutorial {
-    color: white;
+  header {
+    margin: 0 10px;
+    font-size: 20px;
     position: absolute;
-    width: 40vw;
-    padding: 0 30vw;
-    margin: 5vh auto;
+    top: 0;
+    left: 0;
   }
-
-  .container {
-    width: 800px;
-    height: 800px;
-    margin: 0 auto;
-    background-color: grey;
-    border: 5px solid black;
+  main {
+    margin-top: 6vh;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    .box {
-      background-image: url(/images/path.png);
-      background-size: cover;
+
+    .left-container {
+      margin: 7vh auto;
+      width: 40vw;
+      height: 80vh;
+
+      h2 {
+        margin: 20px 50px;
+        font-size: 20px;
+        text-align: left;
+      }
+
+      h3 {
+        margin: 0 50px;
+        font-size: 20px;
+        text-align: justify;
+      }
+
+      button {
+        font-size: 12px;
+      }
+      .replay {
+        display: none;
+      }
     }
-    .player, .box {
-      border: 1px solid black;
+    .right-container {
+      margin: 7vh auto;
+      width: 50vw;
+      height: 80vh;
     }
-    .player {
-      position: relative;
-      &:after {
-        content: '';
-        z-index: 1;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        position: absolute;
-        background-image: url(/images/car-down.png);
+
+    .container {
+      width: 650px;
+      height: 650px;
+      margin: 0 auto;
+      background-color: grey;
+      border: 5px solid black;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      .box {
+        background-image: url(/images/path.png);
         background-size: cover;
       }
-      &.down:after {
-        transform: rotate(0deg);
+      .player, .box {
+        border: 1px solid black;
       }
-      &.up:after {
-        transform: rotate(180deg);
+      .player {
+        position: relative;
+        &:after {
+          content: '';
+          z-index: 1;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          position: absolute;
+          background-image: url(/images/car-down.png);
+          background-size: cover;
+        }
+        &.down:after {
+          transform: rotate(0deg);
+        }
+        &.up:after {
+          transform: rotate(180deg);
+        }
+        &.left:after {
+          transform: rotate(90deg);
+        }
+        &.right:after {
+          transform: rotate(-90deg);
+        }
       }
-      &.left:after {
-        transform: rotate(90deg);
+      .playerImage {
+        z-index: 1;
+        height: 100%;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+        border: 0;
       }
-      &.right:after {
-        transform: rotate(-90deg);
+      .cant-stand {
+        background-image: url(/images/hedge.png);
+        background-size: cover;
       }
-    }
-    .playerImage {
-      z-index: 1;
-      height: 100%;
-      line-height: 0;
-      margin: 0;
-      padding: 0;
-      border: 0;
-    }
-    .cant-stand {
-      background-image: url(/images/hedge.png);
-      background-size: cover;
-    }
-    .key {
-      position: relative;
-      height: 30px;
-      z-index: 0;
-    }
-    .finish {
-      content: url(/images/closedGate.png);
-      background-size: cover;
-    }
-    .lava {
-      background-image: url(/images/lava.png)
+      .key {
+        position: relative;
+        height: 30px;
+        z-index: 0;
+      }
+      .finish {
+        content: url(/images/closedGate.png);
+        background-size: cover;
+      }
+      .lava {
+        background-image: url(/images/lava.png)
+      }
     }
   }
+
+  footer {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+  }
+
+  // .tutorial {
+  //   color: white;
+  //   position: absolute;
+  //   width: 40vw;
+  //   padding: 0 30vw;
+  //   margin: 5vh auto;
+  // }
+
   .status {
     display: none;
   }
@@ -100,8 +156,11 @@ body {
   }
   div {
     margin: 0;
-    background-color: white;
     font-size: 25px;
-    // line-height: 7em;
   }
+}
+
+@-webkit-keyframes slide {
+    from { background-position: 0 0; }
+    to { background-position: -400px 0; }
 }

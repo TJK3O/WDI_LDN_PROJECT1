@@ -5,6 +5,7 @@
     <title>WDI Project 1: JavaScript Game</title>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
     <script src="http://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
@@ -14,20 +15,31 @@
     <header>
       <h1>MAZE EXPLORER</h1>
     </header>
-    <h3 class="tutorial">Navigate through the maze from start to finish within the time limit to progress to the next level. <br><br>
-      Controls:<br><br>
-      W - UP<br>
-      A - LEFT<br>
-      S - DOWN<br>
-      D - RIGHT
-    </h3>
-    <div class="container">
-    </div>
-      <button type="button" name="button" class="play">Play</button>
-      <h2 class="status">Get to the finish</h2>
-      <h2 class="user-input">keyup: -</h2>
-      <h2>Time remaining: <span id="time-remaining">30</span> seconds</h2>
-      <button type="button" name="button" class="next-level">Next level</button>
-      <h3 class="display-score"></h3>
+      <main>
+        <div class="left-container">
+        <h3 class="tutorial">
+          Navigate through the maze from start to finish within the time limit to progress to the next level. <br><br>
+          Controls:<br><br>
+          W - UP<br>
+          A - LEFT<br>
+          S - DOWN<br>
+          D - RIGHT<br>
+          / - PICK UP ITEM
+        </h3>
+        <h2 class="status">Get to the finish</h2>
+        <!-- <h2 class="user-input">keyup: -</h2> -->
+        <h2>Time remaining: <span id="time-remaining">30</span> seconds</h2>
+        <h3>Remaining lives: <span class="display-lives"></span></h3>
+        <h3 class="display-score">Score: 0</h3>
+        <button type="button" name="button" class="play">Play</button>
+        <button type="button" name="button" class="replay">Play again?</button>
+        <button type="button" name="button" class="next-level">Next level</button>
+      </div>
+      <div class="right-container">
+        <div class="container">
+        </div>
+      </div>
+  </main>
+  <footer>Made by Tom Keogh</footer>
   </body>
 </html>

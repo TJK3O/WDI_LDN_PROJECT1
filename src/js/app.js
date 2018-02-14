@@ -18,17 +18,19 @@ $(() => {
   let currentIndexMinusOne;
   const $status = $('.status');
   const $play = $('.play');
+  const $replay = $('.replay');
   const $countdown = $('#time-remaining');
   const $tutorial = $('.tutorial');
-  let timerTime = 400;
+  let timerTime = 3;
   let timerId;
   let timerRunning;
+  let levelOver;
   let gameOver;
   let currentLevel = 0;
   let score = 0;
   let hasKey;
   let lives = 3;
-  const $playerImage = $('<img src="/images/car-down.png" class="playerImage">');
+  const $playerImage = $('<img src="/images/man.png" class="playerImage">');
   const $displayScore = $('.display-score');
   const levels = [
     [1, 3, 4, 5, 6, 7, 9, 11, 21, 22 ,23, 25, 27, 28, 31, 35, 37, 43, 45, 47, 49, 50, 51, 52, 53, 55, 57, 65, 67, 68, 69, 71, 73, 75, 77, 79, 83, 84, 85, 86, 87, 89, 90, 91],
@@ -44,31 +46,13 @@ $(() => {
   ];
 
   function gridSize() {
-    if (currentLevel === 0) {
+    if (currentLevel === 0 || currentLevel === 0 || currentLevel === 2) {
       gridWidth = 10;
       gridHeight = 10;
-    } else if (currentLevel === 1) {
-      gridWidth = 10;
-      gridHeight = 10;
-    } else if (currentLevel === 2) {
-      gridWidth = 10;
-      gridHeight = 10;
-    } else if (currentLevel === 3) {
+    } else if (currentLevel === 3 || currentLevel === 4 || currentLevel === 5) {
       gridWidth = 20;
       gridHeight = 20;
-    } else if (currentLevel === 4) {
-      gridWidth = 20;
-      gridHeight = 20;
-    } else if (currentLevel === 5) {
-      gridWidth = 20;
-      gridHeight = 20;
-    } else if (currentLevel === 6) {
-      gridWidth = 30;
-      gridHeight = 30;
-    } else if (currentLevel === 7) {
-      gridWidth = 30;
-      gridHeight = 30;
-    } else if (currentLevel === 8) {
+    } else if (currentLevel === 6 || currentLevel === 7 || currentLevel === 8) {
       gridWidth = 30;
       gridHeight = 30;
     } else if (currentLevel === 9) {
@@ -78,12 +62,9 @@ $(() => {
   }
 
   function createMazeElements() {
-
     $boxes.filter((i) => {
       return levels[currentLevel].includes(i);
     }).addClass('cant-stand');
-
-
     // if (currentLevel === 0) {
     //   $('.container div:nth-child(9)').addClass('interact');
     //   $('.interact').html('<img src="/images/key.png" class="key">');
@@ -130,6 +111,7 @@ $(() => {
     // }
   }
 
+
   function generateLevel() {
     console.log(`current level ${currentLevel}`);
     $container.empty();
@@ -147,7 +129,14 @@ $(() => {
     if (currentLevel === 0) {
       $('.container div:nth-child(9)').addClass('interact');
       $('.interact').html('<img src="/images/key.png" class="key">');
-      // $('.key').css({'height': '10px'});
+      $('.container div:nth-child(3)').addClass('lava');
+    } else if (currentLevel === 1) {
+      $('.container div:nth-child(68)').addClass('interact');
+      $('.interact').html('<img src="/images/key.png" class="key">');
+      $('.container div:nth-child(3)').addClass('lava');
+    } else if (currentLevel === 2) {
+      $('.container div:nth-child(19)').addClass('interact');
+      $('.interact').html('<img src="/images/key.png" class="key">');
       $('.container div:nth-child(3)').addClass('lava');
     }
     $('.container div:last-child').addClass('finish');
@@ -165,20 +154,21 @@ $(() => {
   }
 
   function startStopTimer() {
+    numberOfLives();
+    $replay.hide();
     if (!timerRunning) {
       timerId = setInterval(() => {
         if (timerTime >= 1){
           lavaDeath();
           if ($finish.hasClass('player') && !hasKey) {
-            console.log('you need the key');
+            $status.text('You need to find the key first!');
           } else if ($finish.hasClass('player') && hasKey) {
             clearInterval(timerId);
             timerRunning = false;
             score += 1;
-            $displayScore.text(`Your score is ${score}`);
+            $displayScore.text(`Score: ${score}`);
             $status.text('You win!');
-            gameOver = true;
-            console.log(score);
+            levelOver = true;
             setTimeout(nextLevel, 1000);
           }
           timerTime --;
@@ -186,17 +176,18 @@ $(() => {
           timerRunning = true;
         } else if (timerTime === 0) {
           lives -= 1;
+          numberOfLives();
           $status.text('You lose');
+          nextLevel();
           clearInterval(timerId);
           timerRunning = false;
-          gameOver = true;
-          console.log(gameOver);
+          levelOver = true;
         }
       }, 1000);
     } else {
       clearInterval(timerId);
       timerRunning = false;
-      gameOver = true;
+      levelOver = true;
     }
   }
 
@@ -262,7 +253,7 @@ $(() => {
 
   function arrowKeyFunction(e){
     // check if key is pressed
-    if (!gameOver) {
+    if (!levelOver) {
       currentIndex = $('.player').index();
       currentIndexMinusWidth = parseFloat(currentIndex - gridWidth);
       currentIndexPlusWidth = parseFloat(currentIndex + gridWidth);
@@ -304,30 +295,76 @@ $(() => {
     document.addEventListener('keydown', arrowKeyFunction);
   }
 
+  // function play() {
+  //   $play.on('click', () => {
+  //     currentLevel = 0;
+  //     hasKey = false;
+  //     $play.hide();
+  //     generateLevel();
+  //     $status.show();
+  //     startStopTimer();
+  //     arrowKeys();
+  //   });
+  // }
+
+  $play.on('click', play);
+
   function play() {
-    $play.on('click', () => {
-      $tutorial.hide();
-      $play.hide();
-      generateLevel();
-      $status.show();
-      startStopTimer();
-      arrowKeys();
-    });
+    $play.hide();
+    generateLevel();
+    $status.show();
+    startStopTimer();
+    $replay.hide();
+    arrowKeys();
   }
+
+  $replay.on('click', replay);
+
+  function replay() {
+    currentLevel = 0;
+    gameOver = false;
+    hasKey = false;
+    timerRunning = false;
+    timerTime = 3;
+    lives = 3;
+    score = 0;
+    levelOver = false;
+    $play.hide();
+    generateLevel();
+    $status.show();
+    startStopTimer();
+    arrowKeys();
+  }
+
+  function numberOfLives() {
+    if (lives === 3) {
+      $('.display-lives').html('<i class="far fa-heart"></i><i class="far fa-heart"></i><i class="far fa-heart"></i>');
+    } else if (lives === 2) {
+      $('.display-lives').html('<i class="far fa-heart"></i><i class="far fa-heart"></i>');
+    } else if (lives === 1) {
+      $('.display-lives').html('<i class="far fa-heart"></i>');
+    } else{
+      $('.display-lives').html('');
+      gameOver = true;
+      $replay.show();
+    }
+  }
+
+
 
   function nextLevel() {
-    timerTime = 30;
-    timerRunning = false;
-    gameOver = false;
-    $play.text('Play next level');
-    currentLevel += 1;
-    timerTime = 30;
-    $container.empty();
-    $status.text('');
-    $countdown.text(timerTime);
-    $finish.removeClass('player');
-    $play.show();
+    if (!gameOver && currentLevel <= 2) {
+      timerTime = 3;
+      timerRunning = false;
+      levelOver = false;
+      $play.text('Play next level');
+      currentLevel += 1;
+      timerTime = 3;
+      $container.empty();
+      $status.text('');
+      $countdown.text(timerTime);
+      $finish.removeClass('player');
+      $play.show();
+    }
   }
-
-  play();
 });
