@@ -159,6 +159,10 @@ $(() => {
     $replay.hide();
     timerId = setInterval(() => {
       $status.removeClass('animated').removeClass('tada');
+      if (timerTime < 12) {
+        $('#time-remaining').css({'color': 'red'});
+        $displayTimeRemaining.css({'color': 'red'});
+      }
       if (timerTime >= 1){
         lavaDeath();
         if ($finish.hasClass('player') && !hasKey) {
@@ -179,7 +183,7 @@ $(() => {
         timerTime --;
         $countdown.text(timerTime);
       } else if (timerTime === 0) {
-        lives -= 1;
+        lives -= 3;
         numberOfLives();
         $status.text('You ran out of time!');
         shakeStatusText();
@@ -189,6 +193,8 @@ $(() => {
         // levelOver = true;
       }
     }, 1000);
+    $('#time-remaining').css({'color': 'white'});
+    $displayTimeRemaining.css({'color': 'white'});
   }
 
   // ************************ //
