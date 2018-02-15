@@ -15,31 +15,39 @@
     <header>
       <h1>MAZE EXPLORER</h1>
     </header>
-      <main>
-        <div class="left-container">
-        <h3 class="tutorial">
-          Navigate through the maze from start to finish within the time limit to progress to the next level. <br><br>
-          Controls:<br><br>
-          W - UP<br>
-          A - LEFT<br>
-          S - DOWN<br>
-          D - RIGHT<br>
-          / - PICK UP ITEM
-        </h3>
-        <h2 class="status">Get to the finish</h2>
-        <!-- <h2 class="user-input">keyup: -</h2> -->
-        <h2>Time remaining: <span id="time-remaining">30</span> seconds</h2>
-        <h3>Remaining lives: <span class="display-lives"></span></h3>
-        <h3 class="display-score">Score: 0</h3>
-        <button type="button" name="button" class="play">Play</button>
-        <button type="button" name="button" class="replay">Play again?</button>
-        <button type="button" name="button" class="next-level">Next level</button>
-      </div>
+    <main>
+      <audio autoplay loop src="sounds/theme.mp3" class="themetune"></audio>
+      <audio src="sounds/coin.wav" class="coin-sound"></audio>
+      <audio src="sounds/key.wav" class="key-sound"></audio>
+      <audio src="sounds/locked.mp3" class="locked"></audio>
+      <audio src="sounds/open-door.mp3" class="open-door"></audio>
+      <audio src="sounds/lava.mp3" class="lava"></audio>
+     <div class="left-container">
+        <div class="container"></div>
+     </div>
       <div class="right-container">
-        <div class="container">
+        <div class="player-information">
+          <h3 class="tutorial">
+            Navigate through the maze from start to finish within the time limit to progress to the next level. You need to find the key before you can get through the finish. Look out for coins along the way<br><br>
+            Controls:<br><br>
+            W - UP<br>
+            A - LEFT<br>
+            S - DOWN<br>
+            D - RIGHT<br>
+            / - PICK UP ITEM
+          </h3>
+          <h2 class="display-final-score"></h2>
+          <h2 class="status">Get to the finish</h2>
+          <!-- <h2 class="user-input">keyup: -</h2> -->
+          <h2 class="time">Time remaining: <span id="time-remaining">30</span> seconds</h2>
+          <h3 class="lives">Remaining lives: <span class="display-lives"></span></h3>
+          <h3 class="display-score">Score: 0</h3>
+          <button type="button" name="button" class="play">Play</button>
+          <button type="button" name="button" class="replay">Play again?</button>
+          <button type="button" name="button" class="next-level">Next level</button>
         </div>
       </div>
   </main>
-  <footer>Made by Tom Keogh</footer>
+  <footer class="brick-footer">Made by Tom Keogh</footer>
   </body>
 </html>
