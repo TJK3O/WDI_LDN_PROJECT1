@@ -86,24 +86,29 @@ $(() => {
       $('.interactKey').html('<img src="/images/key.png" class="key">');
       $('.interactCoin').html('<img src="/images/coin.png" class="coin">');
       $('.container div:nth-child(14)').addClass('lava');
+      $('.container div:nth-child(27)').addClass('lava');
+      $('.container div:nth-child(89)').addClass('lava');
+
     } else if (currentLevel === 1) {
-      $('.container div:nth-child(68)').addClass('interactKey');
+      $('.container div:nth-child(71)').addClass('interactKey');
       $('.interactKey').html('<img src="/images/key.png" class="key">');
-      $('.container div:nth-child(77)').addClass('interactCoin');
-      $('.container div:nth-child(79)').addClass('interactCoin');
       $('.container div:nth-child(3)').addClass('interactCoin');
+      $('.container div:nth-child(9)').addClass('interactCoin');
       $('.interactKey').html('<img src="/images/key.png" class="key">');
       $('.interactCoin').html('<img src="/images/coin.png" class="coin">');
-      $('.container div:nth-child(3)').addClass('lava');
+      $('.container div:nth-child(23)').addClass('lava');
+      $('.container div:nth-child(27)').addClass('lava');
+      $('.container div:nth-child(30)').addClass('lava');
+
     } else if (currentLevel === 2) {
       $('.container div:nth-child(19)').addClass('interactKey');
       $('.interactKey').html('<img src="/images/key.png" class="key">');
-      $('.container div:nth-child(77)').addClass('interactCoin');
-      $('.container div:nth-child(79)').addClass('interactCoin');
-      $('.container div:nth-child(3)').addClass('interactCoin');
+      $('.container div:nth-child(65)').addClass('interactCoin');
+      $('.container div:nth-child(91)').addClass('interactCoin');
       $('.interactKey').html('<img src="/images/key.png" class="key">');
       $('.interactCoin').html('<img src="/images/coin.png" class="coin">');
-      $('.container div:nth-child(3)').addClass('lava');
+      $('.container div:nth-child(55)').addClass('lava');
+      $('.container div:nth-child(92)').addClass('lava');
     }
     $('.container div:last-child').addClass('finish');
     $finish = $('.finish');
@@ -122,7 +127,7 @@ $(() => {
   }
 
   function endGame() {
-    if (currentLevel === 2) {
+    if (currentLevel === 3) {
       gameOver = true;
       $container.empty();
 
@@ -245,7 +250,7 @@ $(() => {
       // console.log(aboveCurrentBox);
       $('.user-input').html( event.type + ': ' + event.which );
       // check which key has been pressed
-      if(e.which === 87) {
+      if (e.which === 87) {
         console.log('up');
         playerPressesW();
       } else if (e.which === 65) {
@@ -280,7 +285,7 @@ $(() => {
 
 
   function playGame() {
-    if (currentLevel < 2) {
+    if (currentLevel < 3) {
       $displayTimeRemaining.show();
       $displayScore.show();
       $displayLives.show();
@@ -334,7 +339,7 @@ $(() => {
 
   function nextLevel() {
     hasKey = false;
-    if (!gameOver && currentLevel < 1) {
+    if (!gameOver && currentLevel < 2) {
       timerTime = 30;
       timerRunning = false;
       levelOver = false;
