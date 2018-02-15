@@ -144,24 +144,34 @@ $(() => {
     createMazeElements();
   }
 
-  // *********************** //
+  // ************** //
   // Game functions //
-  // *********************** //
+  // ************** //
+
+  function shakeStatusText() {
+    $status.addClass(' animated').addClass(' tada').delay(3000).queue(() => {
+      $status.removeClass('animated').removeClass('tada');
+    });
+  }
+
   function startTimer() {
     numberOfLives();
     $replay.hide();
     timerId = setInterval(() => {
+      $status.removeClass('animated').removeClass('tada');
       if (timerTime >= 1){
         lavaDeath();
         if ($finish.hasClass('player') && !hasKey) {
           $locked.get(0).play();
           $status.text('You need to find the key first!');
+          shakeStatusText();
         } else if ($finish.hasClass('player') && hasKey) {
           $openDoor.get(0).play();
           clearInterval(timerId);
           score += 1;
           $displayScore.text(`Score: ${score}`);
-          $status.text('You win!');
+          $status.text('You made it!');
+          shakeStatusText();
           levelOver = true;
           endGame();
           setTimeout(nextLevel(), 1000);
@@ -171,11 +181,12 @@ $(() => {
       } else if (timerTime === 0) {
         lives -= 1;
         numberOfLives();
-        $status.text('You lose');
-        endGame;
+        $status.text('You ran out of time!');
+        shakeStatusText();
+        endGame();
         nextLevel();
         clearInterval(timerId);
-        levelOver = true;
+        // levelOver = true;
       }
     }, 1000);
   }
@@ -261,6 +272,7 @@ $(() => {
         $('.player .key').hide();
         $keySound.get(0).play();
         $status.text('You found the key. Now head for the gate!');
+        shakeStatusText();
         score += 1;
         hasKey = true;
         $displayScore.text(`Your score is ${score}`);
@@ -301,6 +313,10 @@ $(() => {
     score = 0;
     hasKey = false;
     lives = 3;
+    $displayFinalScore.hide();
+    $displayScore.text(`Your score is ${score}`);
+    $status.text('');
+    shakeStatusText();
     $play.hide();
     generateLevel();
     $tutorial.show();
@@ -313,6 +329,7 @@ $(() => {
   function lavaDeath() {
     if ($('.player').hasClass('lava')) {
       $status.text('AGHH THAT HURTS!!');
+      shakeStatusText();
       $lavaSound.get(0).play();
       lives -= 1;
       numberOfLives();
@@ -350,6 +367,7 @@ $(() => {
 
   function nextLevel() {
     clearInterval(timerId);
+    $status.removeClass('animated').removeClass('tada');
     hasKey = false;
     if (!gameOver && currentLevel < 2) {
       timerTime = 30;
@@ -359,6 +377,7 @@ $(() => {
       timerTime = 30;
       $container.empty();
       $status.text('');
+      shakeStatusText();
       $countdown.text(timerTime);
       $finish.removeClass('player');
       $play.show();
