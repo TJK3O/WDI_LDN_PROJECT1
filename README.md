@@ -1,8 +1,8 @@
-# ![image](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) WDI_LDN_PROJECT1
-
-Individual JavaScript project
+# ![image](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png)
 
 # GA WDI-32 Project 1 - Maze Explorer JavaScript Game
+
+Individual JavaScript project
 
 For my first project, I decided to create a top-down maze game called "Maze Explorer" using JavaScript, HTML, and CSS.
 
