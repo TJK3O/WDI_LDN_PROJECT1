@@ -2,7 +2,7 @@
 
 # GA WDI-32 Project 1 - Maze Explorer JavaScript Game
 
-Individual JavaScript project
+Individual JavaScript project 
 
 For my first project, I decided to create a top-down maze game called "Maze Explorer" using JavaScript, HTML, and CSS.
 
