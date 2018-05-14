@@ -19,6 +19,7 @@ Inspired by retro exploration games like Zelda I tried to emulate the gameplay a
 
 ##### The app is designed to be played on desktop and is not mobile-optimized, so please [click here](https://maze-explorer-game.herokuapp.com/) if you would like to play the game. The game has audio, so please use headphones for the best experience.
 
+*Please be aware that Heroku apps go to sleep after 30 mins of inactivity and may take a little time to load*
 
 ---
 
